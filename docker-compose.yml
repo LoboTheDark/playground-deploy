@@ -18,11 +18,16 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.frontA.middlewares=redirect-to-https@docker"
-      - "traefik.http.routers.frontA.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
-      - "traefik.http.routers.frontA.entrypoints=web,websecure"
-      - "traefik.http.routers.frontA.tls=true"
-      - "traefik.http.routers.frontA.tls.certresolver=letsencrypt"      
+      # HTTP Router -> Redirect to hhtps
+      - "traefik.http.routers.frontA-http.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
+      - "traefik.http.routers.frontA-http.entrypoints=web"
+      - "traefik.http.routers.frontA-http.middlewares=redirect-to-https@docker"
+      # HTTPS Router
+      - "traefik.http.routers.frontA-https.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
+      - "traefik.http.routers.frontA-https.entrypoints=websecure"
+      - "traefik.http.routers.frontA-https.tls=true"
+      - "traefik.http.routers.frontA-https.tls.certresolver=letsencrypt"
+      # Port inside the container
       - "traefik.http.services.frontA.loadbalancer.server.port=80"
     depends_on:
       - traefik
@@ -34,11 +39,16 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.frontB.middlewares=redirect-to-https@docker"
-      - "traefik.http.routers.frontB.rule=Host(`${FRONTEND_HOST_3}`) || Host(`${FRONTEND_HOST_4}`)"
-      - "traefik.http.routers.frontB.entrypoints=web,websecure"
-      - "traefik.http.routers.frontB.tls=true"
-      - "traefik.http.routers.frontB.tls.certresolver=letsencrypt"      
+      # HTTP Router -> Redirect to hhtps
+      - "traefik.http.routers.frontB-http.rule=Host(`${FRONTEND_HOST_3}`) || Host(`${FRONTEND_HOST_4}`)"
+      - "traefik.http.routers.frontB-http.entrypoints=web"
+      - "traefik.http.routers.frontB-http.middlewares=redirect-to-https@docker"
+      # HTTPS Router
+      - "traefik.http.routers.frontB-https.rule=Host(`${FRONTEND_HOST_3}`) || Host(`${FRONTEND_HOST_4}`)"
+      - "traefik.http.routers.frontB-https.entrypoints=websecure"
+      - "traefik.http.routers.frontB-https.tls=true"
+      - "traefik.http.routers.frontB-https.tls.certresolver=letsencrypt"
+      # Port inside the container
       - "traefik.http.services.frontB.loadbalancer.server.port=80"
     depends_on:
       - traefik
