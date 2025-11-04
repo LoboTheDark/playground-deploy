@@ -17,7 +17,7 @@ services:
     image: ${FRONTEND_IMAGE}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.front.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)
+      - "traefik.http.routers.front.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
       - "traefik.http.routers.front.entrypoints=web,websecure"
       - "traefik.http.routers.front.tls=true"
       - "traefik.http.routers.front.tls.certresolver=letsencrypt"      
