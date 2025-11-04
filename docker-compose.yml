@@ -18,12 +18,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.front.middlewares=redirect-to-https@docker"
-      - "traefik.http.routers.front.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
-      - "traefik.http.routers.front.entrypoints=web,websecure"
-      - "traefik.http.routers.front.tls=true"
-      - "traefik.http.routers.front.tls.certresolver=letsencrypt"      
-      - "traefik.http.services.front.loadbalancer.server.port=80"
+      - "traefik.http.routers.frontA.middlewares=redirect-to-https@docker"
+      - "traefik.http.routers.frontA.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
+      - "traefik.http.routers.frontA.entrypoints=web,websecure"
+      - "traefik.http.routers.frontA.tls=true"
+      - "traefik.http.routers.frontA.tls.certresolver=letsencrypt"      
+      - "traefik.http.services.frontA.loadbalancer.server.port=80"
     depends_on:
       - traefik
     restart: unless-stopped
@@ -34,12 +34,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.front.middlewares=redirect-to-https@docker"
-      - "traefik.http.routers.front.rule=Host(`${FRONTEND_HOST_3}`) || Host(`${FRONTEND_HOST_4}`)"
-      - "traefik.http.routers.front.entrypoints=web,websecure"
-      - "traefik.http.routers.front.tls=true"
-      - "traefik.http.routers.front.tls.certresolver=letsencrypt"      
-      - "traefik.http.services.front.loadbalancer.server.port=80"
+      - "traefik.http.routers.frontB.middlewares=redirect-to-https@docker"
+      - "traefik.http.routers.frontB.rule=Host(`${FRONTEND_HOST_3}`) || Host(`${FRONTEND_HOST_4}`)"
+      - "traefik.http.routers.frontB.entrypoints=web,websecure"
+      - "traefik.http.routers.frontB.tls=true"
+      - "traefik.http.routers.frontB.tls.certresolver=letsencrypt"      
+      - "traefik.http.services.frontB.loadbalancer.server.port=80"
     depends_on:
       - traefik
     restart: unless-stopped
