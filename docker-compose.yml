@@ -13,13 +13,29 @@ services:
     restart: unless-stopped
     networks: [web]
 
-  frontend:
+  frontend_a:
     image: ${FRONTEND_IMAGE}
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.front.middlewares=redirect-to-https@docker"
       - "traefik.http.routers.front.rule=Host(`${FRONTEND_HOST_1}`) || Host(`${FRONTEND_HOST_2}`)"
+      - "traefik.http.routers.front.entrypoints=web,websecure"
+      - "traefik.http.routers.front.tls=true"
+      - "traefik.http.routers.front.tls.certresolver=letsencrypt"      
+      - "traefik.http.services.front.loadbalancer.server.port=80"
+    depends_on:
+      - traefik
+    restart: unless-stopped
+    networks: [web]
+    
+  frontend_b:
+    image: ${FRONTEND_IMAGE_2}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.front.middlewares=redirect-to-https@docker"
+      - "traefik.http.routers.front.rule=Host(`${FRONTEND_HOST_3}`) || Host(`${FRONTEND_HOST_4}`)"
       - "traefik.http.routers.front.entrypoints=web,websecure"
       - "traefik.http.routers.front.tls=true"
       - "traefik.http.routers.front.tls.certresolver=letsencrypt"      
