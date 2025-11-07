@@ -55,16 +55,16 @@ services:
     restart: unless-stopped
     networks: [web]
     
-    watchtower:
-        image: containrrr/watchtower:latest
-        restart: unless-stopped
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-        command:
-          - --label-enable
-          - --cleanup
-          - --interval=60
-          - --rolling-restart
+  watchtower:
+      image: containrrr/watchtower:latest
+      restart: unless-stopped
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      command:
+        - --label-enable
+        - --cleanup
+        - --interval=60
+        - --rolling-restart
 
 networks:
   web:
