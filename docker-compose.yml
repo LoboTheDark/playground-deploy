@@ -29,6 +29,8 @@ services:
       - "traefik.http.routers.frontA-https.tls.certresolver=letsencrypt"
       # Port inside the container
       - "traefik.http.services.frontA.loadbalancer.server.port=80"
+      # Watchtower
+      - com.centurylinklabs.watchtower.enable=true
     depends_on:
       - traefik
     restart: unless-stopped
@@ -50,6 +52,8 @@ services:
       - "traefik.http.routers.frontB-https.tls.certresolver=letsencrypt"
       # Port inside the container
       - "traefik.http.services.frontB.loadbalancer.server.port=80"
+      # Watchtower
+      - com.centurylinklabs.watchtower.enable=true
     depends_on:
       - traefik
     restart: unless-stopped
