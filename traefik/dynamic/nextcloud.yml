@@ -1,0 +1,23 @@
+http:
+  routers:
+    nextcloud:
+      rule: "Host(`cloud.andreas-dahm.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      service: nextcloud-svc
+      middlewares:
+        - nextcloud-headers
+
+  services:
+    nextcloud-svc:
+      loadBalancer:
+        servers:
+          - url: "http://100.127.41.73:8080"
+
+  middlewares:
+    nextcloud-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
