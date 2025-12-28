@@ -7,6 +7,9 @@ entryPoints:
 providers:
   docker:
     exposedByDefault: false
+  file:
+    directory: /dynamic
+    watch: true
 
 certificatesResolvers:
   letsencrypt:
