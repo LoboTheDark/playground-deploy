@@ -1,9 +1,14 @@
 http:
   routers:
+    nextcloud-http:
+      rule: "Host(`cloud.andreas-dahm.eu`)"
+      entryPoints: ["web"]
+      middlewares: ["redirect-to-https"]
+      service: "noop@internal"
+
     nextcloud:
       rule: "Host(`cloud.andreas-dahm.eu`)"
-      entryPoints:
-        - websecure
+      entryPoints: ["websecure"]
       tls:
         certResolver: letsencrypt
       service: nextcloud-svc
@@ -13,8 +18,13 @@ http:
   services:
     nextcloud-svc:
       loadBalancer:
+        serversTransport: nextcloud-transport
         servers:
-          - url: "http://100.127.41.73:8080"
+          - url: "https://100.127.41.73:443"
+
+  serversTransports:
+    nextcloud-transport:
+      insecureSkipVerify: true
 
   middlewares:
     nextcloud-headers:
