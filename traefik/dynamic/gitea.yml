@@ -1,0 +1,25 @@
+http:
+  routers:
+    gitea-http:
+      rule: "Host(`git.andreas-dahm.eu`)"
+      entryPoints: ["web"]
+      middlewares: ["redirect-to-https"]
+      service: "noop@internal"
+
+    gitea:
+      rule: "Host(`git.andreas-dahm.eu`)"
+      entryPoints: ["websecure"]
+      tls:
+        certResolver: letsencrypt
+      service: gitea-svc
+
+  services:
+    gitea-svc:
+      loadBalancer:
+        serversTransport: gitea-transport
+        servers:
+          - url: "https://100.127.41.73:443"
+
+  serversTransports:
+    gitea-transport:
+      insecureSkipVerify: true

@@ -1,0 +1,13 @@
+tcp:
+  routers:
+    gitea-ssh:
+      entryPoints:
+        - ssh
+      rule: "HostSNI(`*`)"
+      service: gitea-ssh-svc
+
+  services:
+    gitea-ssh-svc:
+      loadBalancer:
+        servers:
+          - address: "100.127.41.73:2222"

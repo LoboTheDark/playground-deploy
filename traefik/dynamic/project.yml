@@ -1,0 +1,25 @@
+http:
+  routers:
+    project-http:
+      rule: "Host(`project.andreas-dahm.eu`)"
+      entryPoints: ["web"]
+      middlewares: ["redirect-to-https"]
+      service: "noop@internal"
+
+    project:
+      rule: "Host(`project.andreas-dahm.eu`)"
+      entryPoints: ["websecure"]
+      tls:
+        certResolver: letsencrypt
+      service: project-svc
+
+  services:
+    project-svc:
+      loadBalancer:
+        serversTransport: project-transport
+        servers:
+          - url: "https://100.127.41.73:443"
+
+  serversTransports:
+    project-transport:
+      insecureSkipVerify: true

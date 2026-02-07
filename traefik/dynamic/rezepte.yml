@@ -1,0 +1,28 @@
+http:
+  routers:
+    # HTTP -> HTTPS Redirect
+    rezepte-http:
+      rule: "Host(`rezepte.andreas-dahm.eu`)"
+      entryPoints: ["web"]
+      middlewares: ["redirect-to-https"]
+      service: "noop@internal"
+
+    # HTTPS Router
+    rezepte:
+      rule: "Host(`rezepte.andreas-dahm.eu`)"
+      entryPoints: ["websecure"]
+      tls:
+        certResolver: letsencrypt
+      service: rezepte-svc
+
+  services:
+    rezepte-svc:
+      loadBalancer:
+        serversTransport: rezepte-transport
+        servers:
+          # Hier die Tailscale IP deines Homeservers (wie bei Leantime)
+          - url: "https://100.127.41.73:443"
+
+  serversTransports:
+    rezepte-transport:
+      insecureSkipVerify: true
